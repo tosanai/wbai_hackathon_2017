@@ -9,6 +9,6 @@ We plan to implement the following functions of Hippocampus.
 * Planning / Decision Making
 * Imagination (prediction on behavior)
 
-Also, we plan to implement the following for visual information.
-* CNN for information including color
-* CNN for grayscale converted information
+Also, we plan to implement the following functions.
+* CNN for visual information including color
+* CNN for grayscale converted visual information
