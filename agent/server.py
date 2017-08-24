@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import argparse
-import cPickle as pickle
+import _pickle as pickle
 import io
 import os
 
@@ -34,11 +34,11 @@ def unpack(payload, depth_image_count=1, depth_image_dim=32*32):
     dat = msgpack.unpackb(payload)
 
     image = []
-    for i in xrange(depth_image_count):
+    for i in range(depth_image_count):
         image.append(Image.open(io.BytesIO(bytearray(dat['image'][i]))))
 
     depth = []
-    for i in xrange(depth_image_count):
+    for i in range(depth_image_count):
         d = (Image.open(io.BytesIO(bytearray(dat['depth'][i]))))
         depth.append(np.array(ImageOps.grayscale(d)).reshape(depth_image_dim))
 
@@ -70,11 +70,11 @@ class Root(object):
     def __init__(self, **kwargs):
         if os.path.exists(CNN_FEATURE_EXTRACTOR):
             app_logger.info("loading... {}".format(CNN_FEATURE_EXTRACTOR))
-            self.feature_extractor = pickle.load(open(CNN_FEATURE_EXTRACTOR))
+            self.feature_extractor = pickle.load(open(CNN_FEATURE_EXTRACTOR, 'rb'))
             app_logger.info("done")
         else:
             self.feature_extractor = CnnFeatureExtractor(use_gpu, CAFFE_MODEL, MODEL_TYPE, image_feature_dim)
-            pickle.dump(self.feature_extractor, open(CNN_FEATURE_EXTRACTOR, 'w'))
+            pickle.dump(self.feature_extractor, open(CNN_FEATURE_EXTRACTOR, 'wb'))
             app_logger.info("pickle.dump finished")
 
         self.agent_service = AgentService(BRICA_CONFIG_FILE, self.feature_extractor)

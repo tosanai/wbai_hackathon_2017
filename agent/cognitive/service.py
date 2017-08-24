@@ -1,6 +1,6 @@
 # coding: utf-8
 
-import interpreter
+from cognitive import interpreter
 import brica1
 import numpy as np
 
@@ -88,7 +88,7 @@ class AgentService:
         self.ub_components[identifier].last_state = feature
 
         if app_logger.isEnabledFor(logging.DEBUG):
-            app_logger.debug('feature: {}'.format(features))
+            app_logger.debug('feature: {}'.format(feature))
 
         return action
 
