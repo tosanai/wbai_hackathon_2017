@@ -50,7 +50,7 @@ class Experience:
             r_replay = np.ndarray(shape=(self.replay_size, 1), dtype=np.float32)
             s_dash_replay = np.ndarray(shape=(self.replay_size, self.hist_size, self.dim), dtype=np.float32)
             episode_end_replay = np.ndarray(shape=(self.replay_size, 1), dtype=np.bool)
-            for i in xrange(self.replay_size):
+            for i in range(self.replay_size):
                 s_replay[i] = np.asarray(self.d[0][replay_index[i]], dtype=np.float32)
                 a_replay[i] = self.d[1][replay_index[i]]
                 r_replay[i] = self.d[2][replay_index[i]]

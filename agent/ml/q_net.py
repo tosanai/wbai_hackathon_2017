@@ -74,7 +74,7 @@ class QNet:
             # make new array
             target = np.array(q.data, dtype=np.float32)
 
-        for i in xrange(num_of_batch):
+        for i in range(num_of_batch):
             if not episode_end[i][0]:
                 tmp_ = reward[i] + self.gamma * max_q_dash[i]
             else:
