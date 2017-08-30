@@ -35,14 +35,14 @@ def unpack(payload, depth_image_count=1, depth_image_dim=32*32):
 
     image = []
     for i in range(depth_image_count):
-        image.append(Image.open(io.BytesIO(bytearray(dat['image'][i]))))
+        image.append(Image.open(io.BytesIO(bytearray(dat[b'image'][i]))))
 
     depth = []
     for i in range(depth_image_count):
-        d = (Image.open(io.BytesIO(bytearray(dat['depth'][i]))))
+        d = (Image.open(io.BytesIO(bytearray(dat[b'depth'][i]))))
         depth.append(np.array(ImageOps.grayscale(d)).reshape(depth_image_dim))
 
-    reward = dat['reward']
+    reward = dat[b'reward']
     observation = {"image": image, "depth": depth}
 
     return reward, observation
@@ -50,11 +50,11 @@ def unpack(payload, depth_image_count=1, depth_image_dim=32*32):
 
 def unpack_reset(payload):
     dat = msgpack.unpackb(payload)
-    reward = dat['reward']
-    success = dat['success']
-    failure = dat['failure']
-    elapsed = dat['elapsed']
-    finished = dat['finished']
+    reward = dat[b'reward']
+    success = dat[b'success']
+    failure = dat[b'failure']
+    elapsed = dat[b'elapsed']
+    finished = dat[b'finished']
 
     return reward, success, failure, elapsed, finished
 

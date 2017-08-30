@@ -330,7 +330,7 @@ class NetworkBuilder:
                     mod_name = v[0]
                     class_name = v[1]
                     try:
-                        mod = __import__(mod_name, globals(), locals(), [class_name], -1)
+                        mod = __import__(mod_name, globals(), locals(), [class_name], 0)
                         Klass = getattr(mod, class_name)
                         component_instance = Klass()
                     except:
