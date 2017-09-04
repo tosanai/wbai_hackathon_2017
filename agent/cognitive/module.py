@@ -5,7 +5,7 @@ import os
 
 import brica1.gym
 import numpy as np
-import six.moves.cPickle as pickle
+import _pickle as pickle
 
 from ml.cnn_feature_extractor import CnnFeatureExtractor
 from ml.q_net import QNet
