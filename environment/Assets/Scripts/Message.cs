@@ -3,6 +3,8 @@
     public byte[][] image = null;
     public byte[][] depth = null;
     public byte[][] floor = null;
+    public float rotation = 0.0F;
+    public float movement = 0.0F;
 }
 
 public class ResetMessage {

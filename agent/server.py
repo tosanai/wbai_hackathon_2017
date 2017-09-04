@@ -44,8 +44,10 @@ def unpack(payload, depth_image_count=1, depth_image_dim=32*32):
 
     reward = dat[b'reward']
     observation = {"image": image, "depth": depth}
+    rotation = dat[b'rotation']
+    movement = dat[b'movement']
 
-    return reward, observation
+    return reward, observation, rotation, movement
 
 
 def unpack_reset(payload):
@@ -87,7 +89,7 @@ class Root(object):
     @cherrypy.expose
     def create(self, identifier):
         body = cherrypy.request.body.read()
-        reward, observation = unpack(body)
+        reward, observation, rotation, movement = unpack(body)
 
         inbound_logger.info('reward: {}, depth: {}'.format(reward, observation['depth']))
         feature = self.feature_extractor.feature(observation)
@@ -101,7 +103,7 @@ class Root(object):
     @cherrypy.expose
     def step(self, identifier):
         body = cherrypy.request.body.read()
-        reward, observation = unpack(body)
+        reward, observation, rotation, movement = unpack(body)
 
         inbound_logger.info('reward: {}, depth: {}'.format(reward, observation['depth']))
 

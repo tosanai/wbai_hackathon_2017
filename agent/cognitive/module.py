@@ -84,10 +84,10 @@ class BGComponent(brica1.Component):
         self.replayed_experience = self.get_in_port('UB-BG-Input').buffer
 
         action, eps, q_max = self.q_net.step(features)
-        time = self.q_net.update_model(self.replayed_experience)
+        self.q_net.update_model(self.replayed_experience)
 
         app_logger.info('Step:{}  Action:{}  Reward:{:.1f}  Epsilon:{:.6f}  Q_max:{:3f}'.format(
-            time, self.q_net.action_to_index(action), reward[0], eps, q_max
+            self.q_net.time, self.q_net.action_to_index(action), reward[0], eps, q_max
         ))
 
         self.epsilon = eps

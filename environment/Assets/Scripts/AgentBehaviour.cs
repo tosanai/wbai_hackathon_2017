@@ -13,6 +13,8 @@ public class AgentBehaviour : MonoBehaviour {
 
     bool created = false;
 
+    string lastAction = "-1";
+
     void OnCollisionEnter(Collision col) {
         if(col.gameObject.tag == "Reward") {
             NotificationCenter.DefaultCenter.PostNotification(this, "OnRewardCollision");
@@ -25,6 +27,20 @@ public class AgentBehaviour : MonoBehaviour {
         msg.reward = PlayerPrefs.GetFloat("Reward");
         msg.image = sensor.GetRgbImages();
         msg.depth = sensor.GetDepthImages();
+
+        switch(lastAction) {
+        case "0":
+            msg.rotation = PlayerPrefs.GetFloat("Rotation Speed");
+            break;
+        case "1":
+            msg.rotation = -PlayerPrefs.GetFloat("Rotation Speed");
+            break;
+        case "2":
+            msg.movement = PlayerPrefs.GetFloat("Movement Speed");
+            break;
+        default:
+            break;
+        }
 
         return packer.Pack(msg);
     }
@@ -62,8 +78,9 @@ public class AgentBehaviour : MonoBehaviour {
             }
         } else {
             if(client.HasAction) {
-                string action = client.GetAction();
-                controller.PerformAction(action);
+                lastAction = client.GetAction();
+                controller.PerformAction(lastAction);
+                
             }
             if(!client.Calling) {
                 client.Step(GenerateMessage());
