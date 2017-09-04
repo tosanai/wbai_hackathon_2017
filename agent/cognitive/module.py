@@ -41,12 +41,12 @@ class VVCComponent(brica1.Component):
     def load_model(self, cnn_feature_extractor):
         if os.path.exists(cnn_feature_extractor):
             app_logger.info("loading... {}".format(cnn_feature_extractor))
-            self.feature_extractor = pickle.load(open(cnn_feature_extractor))
+            self.feature_extractor = pickle.load(open(cnn_feature_extractor, 'rb'))
             app_logger.info("done")
         else:
             self.feature_extractor = CnnFeatureExtractor(self.use_gpu, self.model, self.model_type,
                                                          self.image_feature_dim)
-            pickle.dump(self.feature_extractor, open(cnn_feature_extractor, 'w'))
+            pickle.dump(self.feature_extractor, open(cnn_feature_extractor, 'wb'))
             app_logger.info("pickle.dump finished")
 
     def fire(self):
