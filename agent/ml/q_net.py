@@ -2,7 +2,7 @@
 
 import copy
 import numpy as np
-from chainer import cuda, FunctionSet, Variable, optimizers
+from chainer import cuda, Chain, Variable, optimizers
 import chainer.functions as F
 
 from config.log import APP_KEY
@@ -32,7 +32,7 @@ class QNet:
         app_logger.info("Initializing Q-Network...")
 
         hidden_dim = 256
-        self.model = FunctionSet(
+        self.model = Chain(
             l4=F.Linear(self.dim*self.hist_size, hidden_dim, wscale=np.sqrt(2)),
             q_value=F.Linear(hidden_dim, self.num_of_actions,
                              initialW=np.zeros((self.num_of_actions, hidden_dim),
@@ -44,7 +44,7 @@ class QNet:
         self.model_target = copy.deepcopy(self.model)
 
         self.optimizer = optimizers.RMSpropGraves(lr=0.00025, alpha=0.95, momentum=0.95, eps=0.0001)
-        self.optimizer.setup(self.model.collect_parameters())
+        self.optimizer.setup(self.model)
 
         # History Data :  D=[s, a, r, s_dash, end_episode_flag]
         self.d = [np.zeros((self.data_size, self.hist_size, self.dim), dtype=np.uint8),
