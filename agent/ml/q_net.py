@@ -148,7 +148,7 @@ class QNet:
 
     def update_model(self, replayed_experience):
         if replayed_experience[0]:
-            self.optimizer.zero_grads()
+            self.optimizer.target.cleargrads()
             loss, _ = self.forward(replayed_experience[1], replayed_experience[2],
                                         replayed_experience[3], replayed_experience[4], replayed_experience[5])
             loss.backward()
