@@ -120,10 +120,11 @@ class UBComponent(brica1.Component):
         self.state = self.get_in_port('Isocortex#VVC-UB-Input').buffer
         action, reward = self.get_in_port('Isocortex#FL-UB-Input').buffer
         self.experience.stock(self.time, self.last_state, action, reward, self.state, False)
-        replay_start, s_replay, a_replay, r_replay, s_dash_replay, episode_end_replay = \
-            self.experience.replay(self.time)
+        replay_start, s_replay, a_replay, r_replay, s_dash_replay, episode_end_replay, \
+                success_distance, action_distance = self.experience.replay(self.time)
 
-        self.results['UB-BG-Output'] = [replay_start, s_replay, a_replay, r_replay, s_dash_replay, episode_end_replay]
+        self.results['UB-BG-Output'] = [replay_start, s_replay, a_replay, r_replay, s_dash_replay, episode_end_replay,
+                                          success_distance, action_distance]
         self.last_state = self.state.copy()
         self.time += 1
 

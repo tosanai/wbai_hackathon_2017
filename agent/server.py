@@ -23,6 +23,8 @@ from config.log import CHERRYPY_ACCESS_LOG, CHERRYPY_ERROR_LOG, LOGGING, APP_KEY
 from cognitive.service import AgentService
 from tool.result_logger import ResultLogger
 
+import keras
+
 logging.config.dictConfig(LOGGING)
 
 inbound_logger = logging.getLogger(INBOUND_KEY)
@@ -91,7 +93,8 @@ class Root(object):
         body = cherrypy.request.body.read()
         reward, observation, rotation, movement = unpack(body)
 
-        inbound_logger.info('reward: {}, depth: {}'.format(reward, observation['depth']))
+        inbound_logger.info('reward: {}, depth: {}, rotation: {}, movement: {}'
+                            .format(reward, observation['depth'], rotation, movement))
         feature = self.feature_extractor.feature(observation)
         self.result_logger.initialize()
         result = self.agent_service.create(reward, feature, identifier)
@@ -105,7 +108,8 @@ class Root(object):
         body = cherrypy.request.body.read()
         reward, observation, rotation, movement = unpack(body)
 
-        inbound_logger.info('reward: {}, depth: {}'.format(reward, observation['depth']))
+        inbound_logger.info('reward: {}, depth: {}, rotation: {}, movement: {}'
+                            .format(reward, observation['depth'], rotation, movement))
 
         result = self.agent_service.step(reward, observation, identifier)
         self.result_logger.step()

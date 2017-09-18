@@ -6,3 +6,6 @@ CAFFE_MODEL = BASE_DIR + '/model/bvlc_alexnet.caffemodel'
 MODEL_TYPE = 'alexnet'
 
 DEFAULT_MEAN_IMAGE = BASE_DIR + '/model/ilsvrc_2012_mean.npy'
+
+TENSORBOARD_LOG_DIR = BASE_DIR + '/log/tensorboard/'
+VAE_MODEL = BASE_DIR + '/model/vae/vae'
